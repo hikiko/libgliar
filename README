@@ -1,0 +1,57 @@
+# libgliar - a library that can fake the OpenGL context info returned by
+# the glGet OpenGL calls
+#
+# authored by: Eleni Maria Stea <elene.mst@gmail.com>
+
+For instructions on how to build the code, see the INSTALL file.
+
+Usage:
+------
+LD_PRELOAD=./libgliar.so <opengl_executable>
+
+The library will read the gliar.conf file in the user's library directory or
+the .gliar.conf file in the user's home directory.
+
+Example gliar.conf:
+-------------------
+[key1]
+value1
+value2
+.
+.
+.
+valueN
+
+[key2]
+value1
+.
+.
+.
+valueN
+
+[keyN]
+value1
+.
+.
+.
+valueN
+
+Currently supported keys:
+"vendor" (the vendor string), "extensions" (the extensions string), "version" (the opengl version string)
+
+Example:
+---------
+gliar.conf:
+[vendor]
+Mutant Stargoat
+
+[extensions]
+GL_MSG_hikiko_ext
+GL_MSG_test
+
+$ LD_PRELOAD=./libgliar glxinfo | grep -A2 "OpenGL extensions"
+OpenGL extensions:
+    GL_MSG_hikiko_ext, GL_MSG_test
+
+
+
