@@ -82,6 +82,14 @@ const GLubyte *glGetString(GLenum name)
 		key = "extensions";
 		break;
 
+  case GL_RENDERER:
+    key = "renderer";
+    break;
+
+  case GL_SHADING_LANGUAGE_VERSION:
+    key = "sl version";
+    break;
+
 	default:
 		key = 0;
 	}
