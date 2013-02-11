@@ -52,7 +52,8 @@ value1
 valueN
 
 Currently supported keys:
-"vendor" (the vendor string), "extensions" (the extensions string), "version" (the opengl version string)
+"vendor" (the vendor string), "extensions" (the extensions string), "version" (the opengl version string),
+"sl version" (the shading language version), "renderer" (the renderer)
 
 Example:
 ---------
