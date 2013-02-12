@@ -11,11 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.	If not, see <http://www.gnu.org/licenses/>.
 
 Author: Eleni Maria Stea <elene.mst@gmail.com>
 */
@@ -23,21 +23,24 @@ Author: Eleni Maria Stea <elene.mst@gmail.com>
 #ifndef CFG_H_
 #define CFG_H_
 
-enum TYPE {unknown, flt, dbl, boolean, integer, str};
+enum type {GLIAR_NUMBER, GLIAR_STRING};
 
 struct cfgopt {
 	char *key;
-	char *str_val;
+	char **str_val;
+	int str_count;
 
-  double num_val;
-  enum TYPE type;
+	char* conc_vals;
+
+	int num_val;
+	enum type type;
 
 	struct cfgopt *next;
 };
 
 struct cfgopt *gliar_load_cfg(const char *fname);
 
-const char *gliar_find_opt(struct cfgopt *list, const char *name);
+const struct cfgopt *gliar_find_opt(struct cfgopt *list, const char *name);
 
 void gliar_print_opt(struct cfgopt *list);
 

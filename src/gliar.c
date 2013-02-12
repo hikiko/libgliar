@@ -11,11 +11,11 @@ the Free Software Foundation, either version 3 of the License, or
 
 This program is distributed in the hope that it will be useful,
 but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.	See the
 GNU General Public License for more details.
 
 You should have received a copy of the GNU General Public License
-along with this program.  If not, see <http://www.gnu.org/licenses/>.
+along with this program.	If not, see <http://www.gnu.org/licenses/>.
 
 Author: Eleni Maria Stea <elene.mst@gmail.com>
 */
@@ -38,7 +38,7 @@ static const void* (*gl_get_booleanv)(GLenum, GLboolean*);
 static const void* (*gl_get_doublev)(GLenum, GLdouble*);
 static const void* (*gl_get_floatv)(GLenum, GLfloat*);
 static const void* (*gl_get_integerv)(GLenum, GLint*);
-static const void* (*gl_get_integer64v)(GLenum, GLint64*); 
+static const void* (*gl_get_integer64v)(GLenum, GLint64*);
 
 static const void* (*gl_get_booleani_v)(GLenum, GLuint, GLboolean*);
 static const void* (*gl_get_doublei_v)(GLenum, GLuint, GLdouble*);
@@ -73,19 +73,19 @@ static int init(void)
 	}
 
 	gl_get_string = dlsym(RTLD_NEXT, "glGetString");
-/*  gl_get_stringi = dlsym(RTLD_NEXT, "glGetStringi");
+/*	gl_get_stringi = dlsym(RTLD_NEXT, "glGetStringi");
 
-  gl_get_booleanv = dlsym(RTLD_NEXT, "glGetBooleanv");
-  gl_get_doublev = dlsym(RTLD_NEXT, "glGetDoublev");
-  gl_get_floatv = dlsym(RTLD_NEXT, "glGetFloatv");
-  gl_get_integerv = dlsym(RTLD_NEXT, "glGetIntegerv");
-  gl_get_integer64v = dlsym(RTLD_NEXT, "glGetInteger64v");
+	gl_get_booleanv = dlsym(RTLD_NEXT, "glGetBooleanv");
+	gl_get_doublev = dlsym(RTLD_NEXT, "glGetDoublev");
+	gl_get_floatv = dlsym(RTLD_NEXT, "glGetFloatv");
+	gl_get_integerv = dlsym(RTLD_NEXT, "glGetIntegerv");
+	gl_get_integer64v = dlsym(RTLD_NEXT, "glGetInteger64v");
 
-  gl_get_booleani_v = dlsym(RTLD_NEXT, "glGetBooleani_v");
-  gl_get_doublei_v = dlsym(RTLD_NEXT, "glGetDoublei_v");
-  gl_get_floati_v = dlsym(RTLD_NEXT, "glGetFloati_v");
-  gl_get_integeri_v = dlsym(RTLD_NEXT, "glGetIntegeri_v");
-  gl_get_integer64i_v = dlsym(RTLD_NEXT, "glGetInteger64i_v");*/
+	gl_get_booleani_v = dlsym(RTLD_NEXT, "glGetBooleani_v");
+	gl_get_doublei_v = dlsym(RTLD_NEXT, "glGetDoublei_v");
+	gl_get_floati_v = dlsym(RTLD_NEXT, "glGetFloati_v");
+	gl_get_integeri_v = dlsym(RTLD_NEXT, "glGetIntegeri_v");
+	gl_get_integer64i_v = dlsym(RTLD_NEXT, "glGetInteger64i_v");*/
 
 	done_init = 1;
 	return 0;
@@ -93,7 +93,8 @@ static int init(void)
 
 const GLubyte *glGetString(GLenum name)
 {
-	const char *key, *value;
+	const char *key;
+	const struct cfgopt *option;
 
 	init();
 
@@ -110,20 +111,20 @@ const GLubyte *glGetString(GLenum name)
 		key = "extensions";
 		break;
 
-  case GL_RENDERER:
-    key = "renderer";
-    break;
+	case GL_RENDERER:
+		key = "renderer";
+		break;
 
-  case GL_SHADING_LANGUAGE_VERSION:
-    key = "sl version";
-    break;
+	case GL_SHADING_LANGUAGE_VERSION:
+		key = "sl version";
+		break;
 
 	default:
 		key = 0;
 	}
 
-	if(key && (value = gliar_find_opt(cfglist, key))) {
-		return value;
+	if(key && (option = gliar_find_opt(cfglist, key))) {
+		return (const GLubyte*)option->conc_vals;
 	}
 
 	return gl_get_string(name);
