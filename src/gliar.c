@@ -30,7 +30,22 @@ Author: Eleni Maria Stea <elene.mst@gmail.com>
 #include "cfg.h"
 
 static int done_init;
+
 static const GLubyte* (*gl_get_string)(GLenum);
+/*static const GLubyte* (*gl_get_stringi)(GLenum, GLuint);
+
+static const void* (*gl_get_booleanv)(GLenum, GLboolean*);
+static const void* (*gl_get_doublev)(GLenum, GLdouble*);
+static const void* (*gl_get_floatv)(GLenum, GLfloat*);
+static const void* (*gl_get_integerv)(GLenum, GLint*);
+static const void* (*gl_get_integer64v)(GLenum, GLint64*); 
+
+static const void* (*gl_get_booleani_v)(GLenum, GLuint, GLboolean*);
+static const void* (*gl_get_doublei_v)(GLenum, GLuint, GLdouble*);
+static const void* (*gl_get_floati_v)(GLenum, GLuint, GLfloat*);
+static const void* (*gl_get_integeri_v)(GLenum, GLuint, GLint*);
+static const void* (*gl_get_integer64i_v)(GLenum, GLuint, GLint64*);*/
+
 static struct cfgopt *cfglist;
 
 static int init(void)
@@ -58,6 +73,19 @@ static int init(void)
 	}
 
 	gl_get_string = dlsym(RTLD_NEXT, "glGetString");
+/*  gl_get_stringi = dlsym(RTLD_NEXT, "glGetStringi");
+
+  gl_get_booleanv = dlsym(RTLD_NEXT, "glGetBooleanv");
+  gl_get_doublev = dlsym(RTLD_NEXT, "glGetDoublev");
+  gl_get_floatv = dlsym(RTLD_NEXT, "glGetFloatv");
+  gl_get_integerv = dlsym(RTLD_NEXT, "glGetIntegerv");
+  gl_get_integer64v = dlsym(RTLD_NEXT, "glGetInteger64v");
+
+  gl_get_booleani_v = dlsym(RTLD_NEXT, "glGetBooleani_v");
+  gl_get_doublei_v = dlsym(RTLD_NEXT, "glGetDoublei_v");
+  gl_get_floati_v = dlsym(RTLD_NEXT, "glGetFloati_v");
+  gl_get_integeri_v = dlsym(RTLD_NEXT, "glGetIntegeri_v");
+  gl_get_integer64i_v = dlsym(RTLD_NEXT, "glGetInteger64i_v");*/
 
 	done_init = 1;
 	return 0;

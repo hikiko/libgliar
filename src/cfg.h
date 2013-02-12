@@ -23,9 +23,14 @@ Author: Eleni Maria Stea <elene.mst@gmail.com>
 #ifndef CFG_H_
 #define CFG_H_
 
+enum TYPE {unknown, flt, dbl, boolean, integer, str};
+
 struct cfgopt {
 	char *key;
-	char *val;
+	char *str_val;
+
+  double num_val;
+  enum TYPE type;
 
 	struct cfgopt *next;
 };

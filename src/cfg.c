@@ -64,7 +64,9 @@ struct cfgopt *gliar_load_cfg(const char *fname)
 			if((opt = malloc(sizeof *opt))) {
 				if((opt->key = malloc(strlen(line) + 1))) {
 					strcpy(opt->key, line);
-					opt->val = 0;
+					opt->str_val = 0;
+          opt->num_val = 0;
+          opt->type = unknown;
 				} else {
 					free(opt);
 					opt = 0;
@@ -72,15 +74,16 @@ struct cfgopt *gliar_load_cfg(const char *fname)
 			}
 		} else {
 			char *tmp;
-			int prev_len = opt->val ? strlen(opt->val) : 0;
+			int prev_len = opt->str_val ? strlen(opt->str_val) : 0;
 
-			if(opt && (tmp = realloc(opt->val, prev_len + strlen(line) + 2))) {
-				opt->val = tmp;
+			if(opt && (tmp = realloc(opt->str_val, prev_len + strlen(line) + 2))) {
+        opt->type = str;
+				opt->str_val = tmp;
 				if(prev_len) {
-					strcat(opt->val, " ");
-					strcat(opt->val, line);
+					strcat(opt->str_val, " ");
+					strcat(opt->str_val, line);
 				} else {
-					strcpy(opt->val, line);
+					strcpy(opt->str_val, line);
 				}
 			}
 		}
@@ -103,7 +106,7 @@ const char *gliar_find_opt(struct cfgopt *list, const char *name)
 
 	while(list) {
 		if(strcmp(list->key, name) == 0) {
-			return list->val;
+			return list->str_val;
 		}
 		list = list->next;
 	}
@@ -114,7 +117,7 @@ void gliar_print_opt(struct cfgopt *list)
 {
 	printf("OPTIONS\n");
 	while(list) {
-		printf("\"%s\" -> \"%s\"\n", list->key, list->val);
+		printf("\"%s\" -> \"%s\"\n", list->key, list->str_val);
 		list = list->next;
 	}
 }
