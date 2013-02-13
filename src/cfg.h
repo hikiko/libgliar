@@ -38,6 +38,8 @@ struct cfgopt {
 	struct cfgopt *next;
 };
 
+void gliar_value_set(const char *key, char **valid, int vcount);
+
 struct cfgopt *gliar_load_cfg(const char *fname);
 
 const struct cfgopt *gliar_find_opt(struct cfgopt *list, const char *name);
