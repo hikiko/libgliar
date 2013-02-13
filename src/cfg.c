@@ -29,12 +29,54 @@ Author: Eleni Maria Stea <elene.mst@gmail.com>
 static char *stripspace(char *s);
 static void concat_values(struct cfgopt *opt);
 
+/* linked list of valid value filters */
+static struct cfgopt *valid_vals;
+
+/* adds a new filter set of valid values for the key "key" */
+void gliar_value_set(const char *key, char **valid, int vcount)
+{
+	int i;
+	struct cfgopt *node;
+
+	if(!(node = malloc(sizeof *node))) {
+		return;
+	}
+	if(!(node->key = malloc(strlen(key) + 1))) {
+		free(node);
+		return;
+	}
+	strcpy(node->key, key);
+
+	if(!(node->str_val = malloc(vcount * sizeof *node->str_val))) {
+		free(node->key);
+		free(node);
+		return;
+	}
+	for(i=0; i<vcount; i++) {
+		if(!(node->str_val[i] = malloc(strlen(valid[i]) + 1))) {
+			for(; i>=0; i--) {
+				free(node->str_val[i]);
+				free(node->key);
+				free(node);
+				return;
+			}
+		}
+		strcpy(node->str_val[i], valid[i]);
+	}
+
+	node->str_count = vcount;
+
+	node->next = valid_vals;
+	valid_vals = node;
+}
+
 struct cfgopt *gliar_load_cfg(const char *fname)
 {
 	FILE *fp;
 	char buf[512];
 	struct cfgopt *optlist = 0;
 	struct cfgopt *opt = 0;
+	const struct cfgopt *filter;
 
 	if(!(fp = fopen(fname, "r"))) {
 		return 0;
@@ -48,6 +90,7 @@ struct cfgopt *gliar_load_cfg(const char *fname)
 		}
 
 		if(*line == '[') {
+			/* found a new key */
 			char *end = strrchr(line, ']');
 			if(!end) {
 				fprintf(stderr, "invalid config %s: %s\n", fname, line);
@@ -62,6 +105,9 @@ struct cfgopt *gliar_load_cfg(const char *fname)
 				concat_values(opt);
 			}
 
+			/* find the valid values for this particular key (if any) */
+			filter = gliar_find_opt(valid_vals, line);
+
 			if((opt = malloc(sizeof *opt))) {
 				if((opt->key = malloc(strlen(line) + 1))) {
 					strcpy(opt->key, line);
@@ -75,14 +121,28 @@ struct cfgopt *gliar_load_cfg(const char *fname)
 				}
 			}
 		} else {
-			int new_sz = opt->str_count + 1;
+			/* found a value for the current key (opt->key) */
+			int i, num, new_sz = opt->str_count + 1;
 			char **tmp;
-
 			char *end;
-			int num = strtol(line, &end, 10);
 
+			if(filter) {
+				for(i=0; i<filter->str_count; i++) {
+					if(strcmp(line, filter->str_val[i]) == 0) {
+						break;
+					}
+				}
+
+				if(i == filter->str_count) {
+					/* the string is not in the valid list, ignore it */
+					fprintf(stderr, "GLIAR: extension %s not supported, ignoring\n", line);
+					continue;
+				}
+			}
+
+			num = strtol(line, &end, 10);
 			if(!*end) {
-				opt->num_val = line;
+				opt->num_val = num;
 				opt->type = GLIAR_NUMBER;
 			}
 
@@ -158,6 +218,11 @@ static void concat_values(struct cfgopt *opt)
 {
 	int i;
 	int sz = opt->str_count - 1;
+
+	if(!opt->str_count) {
+		opt->conc_vals = 0;
+		return;
+	}
 
 	for(i=0; i<opt->str_count; i++) {
 		sz += strlen(opt->str_val[i]);
