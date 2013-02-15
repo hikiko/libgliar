@@ -1,0 +1,26 @@
+src = $(wildcard src/*.c)
+obj = $(src:.c=.o)
+lib_so = libgliar.so
+gliar_sh = gliar
+
+CFLAGS = -pedantic -Wall -g -fPIC -D_GNU_SOURCE
+
+$(lib_so): $(obj)
+	$(CC) -o $@ -shared $(obj) $(LDFLAGS)
+
+.PHONY: clean
+clean:
+	rm -f $(obj) $(lib_so)
+
+.PHONY: install
+install: $(lib_so)
+	mkdir -p $(PREFIX)/lib
+	mkdir -p $(PREFIX)/bin
+	cp $(lib_so) $(PREFIX)/lib/$(lib_so)
+	cp $(gliar_sh) $(PREFIX)/bin/$(gliar_sh)
+	ldconfig
+
+.PHONY: uninstall
+uninstall:
+	rm -f $(PREFIX)/lib/$(lib_so)
+	rm -f $(PREFIX)/bin/$(gliar_sh)

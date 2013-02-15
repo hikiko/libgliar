@@ -1,0 +1,16 @@
+#!/bin/sh
+
+PREFIX=/usr/local
+
+while [ $# != 0 ]
+do
+    case $1 in
+    --prefix=*)
+        PREFIX=`echo $1 | sed 's/--prefix=//'`
+        ;;
+    esac
+    shift
+done
+
+echo PREFIX=$PREFIX > Makefile
+cat Makefile.in >> Makefile

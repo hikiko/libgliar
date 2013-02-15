@@ -22,7 +22,7 @@ For instructions on how to build the code, see the INSTALL file.
 
 Usage:
 ------
-LD_PRELOAD=./libgliar.so <opengl_executable>
+gliar <opengl_executable>
 
 The library will read the gliar.conf file in the user's library directory or
 the .gliar.conf file in the user's home directory.
@@ -52,22 +52,12 @@ value1
 valueN
 
 Currently supported keys:
-"vendor" (the vendor string), "extensions" (the extensions string), "version" (the opengl version string),
-"sl version" (the shading language version), "renderer" (the renderer)
+"vendor" (the vendor string), "extensions" (the list of the extensions), "version" (the opengl version string),
+"sl version" (the shading language version), "renderer" (the renderer), "max texture units", "max texture size"
 
-Example:
----------
-gliar.conf:
-[vendor]
-Mutant Stargoat
+Example configuration files can be found in the directory examples.
+Example video: http://www.youtube.com/watch?v=v2UDGgb6AgA
 
-[extensions]
-GL_MSG_hikiko_ext
-GL_MSG_test
-
-$ LD_PRELOAD=./libgliar glxinfo | grep -A2 "OpenGL extensions"
-OpenGL extensions:
-    GL_MSG_hikiko_ext, GL_MSG_test
-
-
-
+Note: The library can only restrict the capabilities of a GPU, not "emulate" non supported extensions for 
+example. If the gliar.conf contains an extension that is not supported by the user's real GPU, the library 
+will return a warning and the user's program might crash.
