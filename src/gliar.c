@@ -253,6 +253,14 @@ void glGetIntegerv(GLenum name, GLint *val)
 		key = "max texture coordinates";
 		break;
 
+	case GL_MAX_VERTEX_ATTRIBS:
+		key = "max vertex attributes";
+		break;
+
+	case GL_MAX_RENDERBUFFER_SIZE_EXT:
+		key = "max renderbuffer size";
+		break;
+
 	default:
 		key = 0;
 	}

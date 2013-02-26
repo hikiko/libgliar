@@ -40,5 +40,7 @@ int main(int argc, char **argv)
 	printf("texture units: %d\n", GET_INTEGER(GL_MAX_TEXTURE_UNITS));
 	printf("max texture size: %d\n", GET_INTEGER(GL_MAX_TEXTURE_SIZE));
 	printf("max texture coordinates: %d\n", GET_INTEGER(GL_MAX_TEXTURE_COORDS));
+	printf("max vertex attributes: %d\n", GET_INTEGER(GL_MAX_VERTEX_ATTRIBS));
+	printf("max renderbuffer size: %d\n", GET_INTEGER(GL_MAX_RENDERBUFFER_SIZE_EXT));
 	return 0;
 }
