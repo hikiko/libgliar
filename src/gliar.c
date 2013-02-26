@@ -249,6 +249,10 @@ void glGetIntegerv(GLenum name, GLint *val)
 		key = "max texture size";
 		break;
 
+	case GL_MAX_TEXTURE_COORDS:
+		key = "max texture coordinates";
+		break;
+
 	default:
 		key = 0;
 	}
