@@ -50,6 +50,6 @@ int main(int argc, char **argv)
 	printf("max fragment uniform vectors: %d\n", GET_INTEGER(GL_MAX_FRAGMENT_UNIFORM_VECTORS));
 	printf("max varying vectors: %d\n", GET_INTEGER(GL_MAX_VARYING_VECTORS));
 	printf("max color attachments: %d\n", GET_INTEGER(GL_MAX_COLOR_ATTACHMENTS_EXT));
-	printf("max renderbuffer size: %d\n", GET_INTEGER(GL_MAX_RENDERBUFFER_SIZE_EXT));
+	printf("max renderbuffer size ext: %d\n", GET_INTEGER(GL_MAX_RENDERBUFFER_SIZE_EXT));
 	return 0;
 }
