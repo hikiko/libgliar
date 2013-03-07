@@ -241,12 +241,32 @@ void glGetIntegerv(GLenum name, GLint *val)
 		}
 		break;
 
+	case GL_MAJOR_VERSION:
+		key = "major version";
+		break;
+
+	case GL_MINOR_VERSION:
+		key = "minor version";
+		break;
+
 	case GL_MAX_TEXTURE_UNITS:
 		key = "max texture units";
 		break;
 
+	case GL_MAX_TEXTURE_IMAGE_UNITS:
+		key = "max texture image units";
+		break;
+
+	case GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS:
+		key = "max combined texture image units";
+		break;
+
 	case GL_MAX_TEXTURE_SIZE:
 		key = "max texture size";
+		break;
+
+	case GL_MAX_CUBE_MAP_TEXTURE_SIZE:
+		key = "max cube map texture size";
 		break;
 
 	case GL_MAX_TEXTURE_COORDS:
@@ -257,8 +277,28 @@ void glGetIntegerv(GLenum name, GLint *val)
 		key = "max vertex attributes";
 		break;
 
+	case GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS:
+		key = "max vertex texture image units";
+		break;
+
+	case GL_MAX_VERTEX_UNIFORM_VECTORS:
+		key = "max vertex uniform vectors";
+		break;
+
+	case GL_MAX_FRAGMENT_UNIFORM_VECTORS:
+		key = "max fragment uniform vectors";
+		break;
+
+	case GL_MAX_VARYING_VECTORS:
+		key = "max varying vectors";
+		break;
+
+	case GL_MAX_COLOR_ATTACHMENTS_EXT:
+		key = "max color attachments";
+		break;
+
 	case GL_MAX_RENDERBUFFER_SIZE_EXT:
-		key = "max renderbuffer size";
+		key = "max renderbuffer size ext";
 		break;
 
 	default:

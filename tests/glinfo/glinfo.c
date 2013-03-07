@@ -36,11 +36,20 @@ int main(int argc, char **argv)
 	printf("renderer: %s\n", glGetString(GL_RENDERER));
 	printf("version: %s\n", glGetString(GL_VERSION));
 	printf("shading language version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
-
-	printf("texture units: %d\n", GET_INTEGER(GL_MAX_TEXTURE_UNITS));
+	printf("major version: %d\n", GET_INTEGER(GL_MAJOR_VERSION));
+	printf("minor version: %d\n", GET_INTEGER(GL_MINOR_VERSION));
+	printf("max texture units: %d\n", GET_INTEGER(GL_MAX_TEXTURE_UNITS));
+	printf("max texture image units: %d\n", GET_INTEGER(GL_MAX_TEXTURE_IMAGE_UNITS));
+	printf("max combined texture image units: %d\n", GET_INTEGER(GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS));
+	printf("max vertex texture image units: %d\n", GET_INTEGER(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS));
 	printf("max texture size: %d\n", GET_INTEGER(GL_MAX_TEXTURE_SIZE));
+	printf("max cube map texture size: %d\n", GET_INTEGER(GL_MAX_CUBE_MAP_TEXTURE_SIZE));
 	printf("max texture coordinates: %d\n", GET_INTEGER(GL_MAX_TEXTURE_COORDS));
 	printf("max vertex attributes: %d\n", GET_INTEGER(GL_MAX_VERTEX_ATTRIBS));
+	printf("max vertex uniform vectors: %d\n", GET_INTEGER(GL_MAX_VERTEX_UNIFORM_VECTORS));
+	printf("max fragment uniform vectors: %d\n", GET_INTEGER(GL_MAX_FRAGMENT_UNIFORM_VECTORS));
+	printf("max varying vectors: %d\n", GET_INTEGER(GL_MAX_VARYING_VECTORS));
+	printf("max color attachments: %d\n", GET_INTEGER(GL_MAX_COLOR_ATTACHMENTS_EXT));
 	printf("max renderbuffer size: %d\n", GET_INTEGER(GL_MAX_RENDERBUFFER_SIZE_EXT));
 	return 0;
 }
