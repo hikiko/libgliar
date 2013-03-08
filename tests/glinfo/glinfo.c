@@ -21,9 +21,12 @@ Author: Eleni Maria Stea <elene.mst@gmail.com>
 */
 
 #include <stdio.h>
+#include <GL/glew.h>
 #include <GL/glut.h>
 
 #define GET_INTEGER(x)	(glGetIntegerv(x, &val), val)
+#define GET_PROGRAMIV_ARB_V(x) (glGetProgramivARB(GL_VERTEX_PROGRAM_ARB, x, &val), val)
+#define GET_PROGRAMIV_ARB_F(x) (glGetProgramivARB(GL_FRAGMENT_PROGRAM_ARB, x, &val), val)
 
 int main(int argc, char **argv)
 {
@@ -32,10 +35,13 @@ int main(int argc, char **argv)
 	glutInit(&argc, argv);
 	glutCreateWindow("glinfo");
 
+	glewInit();
+
 	printf("vendor: %s\n", glGetString(GL_VENDOR));
 	printf("renderer: %s\n", glGetString(GL_RENDERER));
 	printf("version: %s\n", glGetString(GL_VERSION));
 	printf("shading language version: %s\n", glGetString(GL_SHADING_LANGUAGE_VERSION));
+
 	printf("major version: %d\n", GET_INTEGER(GL_MAJOR_VERSION));
 	printf("minor version: %d\n", GET_INTEGER(GL_MINOR_VERSION));
 	printf("max texture units: %d\n", GET_INTEGER(GL_MAX_TEXTURE_UNITS));
@@ -51,5 +57,36 @@ int main(int argc, char **argv)
 	printf("max varying vectors: %d\n", GET_INTEGER(GL_MAX_VARYING_VECTORS));
 	printf("max color attachments: %d\n", GET_INTEGER(GL_MAX_COLOR_ATTACHMENTS_EXT));
 	printf("max renderbuffer size ext: %d\n", GET_INTEGER(GL_MAX_RENDERBUFFER_SIZE_EXT));
+	
+	printf("V max program instructions arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_INSTRUCTIONS_ARB));
+	printf("V max program native instructions arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_NATIVE_INSTRUCTIONS_ARB));
+	printf("V max program temporaries arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_TEMPORARIES_ARB));
+	printf("V max program native temporaries arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_NATIVE_TEMPORARIES_ARB));
+	printf("V max program program parameters arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_PARAMETERS_ARB));
+	printf("V max program native parameters arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_NATIVE_PARAMETERS_ARB));
+	printf("V max program attribs arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_ATTRIBS_ARB));
+	printf("V max program native attribs arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_NATIVE_ATTRIBS_ARB));
+	printf("V max program address registers arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_ADDRESS_REGISTERS_ARB));
+	printf("V max program native address registers arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_NATIVE_ADDRESS_REGISTERS_ARB));
+	printf("V max program local parameters arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_LOCAL_PARAMETERS_ARB));
+	printf("V max program env parameters arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_ENV_PARAMETERS_ARB));
+	printf("V max program alu instructions arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_ALU_INSTRUCTIONS_ARB));
+	printf("V max program native alu instructions arb: %d\n", GET_PROGRAMIV_ARB_V(GL_MAX_PROGRAM_NATIVE_ALU_INSTRUCTIONS_ARB));
+	
+	printf("F max program instructions arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_INSTRUCTIONS_ARB));
+	printf("F max program native instructions arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_NATIVE_INSTRUCTIONS_ARB));
+	printf("F max program temporaries arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_TEMPORARIES_ARB));
+	printf("F max program native temporaries arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_NATIVE_TEMPORARIES_ARB));
+	printf("F max program program parameters arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_PARAMETERS_ARB));
+	printf("F max program native parameters arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_NATIVE_PARAMETERS_ARB));
+	printf("F max program attribs arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_ATTRIBS_ARB));
+	printf("F max program native attribs arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_NATIVE_ATTRIBS_ARB));
+	printf("F max program address registers arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_ADDRESS_REGISTERS_ARB));
+	printf("F max program native address registers arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_NATIVE_ADDRESS_REGISTERS_ARB));
+	printf("F max program local parameters arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_LOCAL_PARAMETERS_ARB));
+	printf("F max program env parameters arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_ENV_PARAMETERS_ARB));
+	printf("F max program alu instructions arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_ALU_INSTRUCTIONS_ARB));
+	printf("F max program native alu instructions arb: %d\n", GET_PROGRAMIV_ARB_F(GL_MAX_PROGRAM_NATIVE_ALU_INSTRUCTIONS_ARB));
+
 	return 0;
 }

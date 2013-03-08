@@ -2,7 +2,7 @@ obj = glinfo.o
 bin = glinfo
 
 CFLAGS = -pedantic -Wall -g
-LDFLAGS = -lGL -lglut
+LDFLAGS = -lGL -lglut -lGLEW
 
 $(bin): $(obj)
 	$(CC) -o $@ $(obj) $(LDFLAGS)

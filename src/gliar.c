@@ -40,13 +40,13 @@ static int done_init;
 
 static const GLubyte* (*gl_get_string)(GLenum);
 static const GLubyte* (*gl_get_stringi)(GLenum, GLuint);
-static const void* (*gl_get_integerv)(GLenum, GLint*);
+static void (*gl_get_integerv)(GLenum, GLint*);
+static void (*gl_get_programiv)(GLuint, GLenum, GLint*);
 
 /*static const void* (*gl_get_booleanv)(GLenum, GLboolean*);
 static const void* (*gl_get_doublev)(GLenum, GLdouble*);
 static const void* (*gl_get_floatv)(GLenum, GLfloat*);
 static const void* (*gl_get_integer64v)(GLenum, GLint64*);
-
 static const void* (*gl_get_booleani_v)(GLenum, GLuint, GLboolean*);
 static const void* (*gl_get_doublei_v)(GLenum, GLuint, GLdouble*);
 static const void* (*gl_get_floati_v)(GLenum, GLuint, GLfloat*);
@@ -54,7 +54,6 @@ static const void* (*gl_get_integeri_v)(GLenum, GLuint, GLint*);
 static const void* (*gl_get_integer64i_v)(GLenum, GLuint, GLint64*);*/
 
 static struct cfgopt *cfglist;
-
 
 static int init(void)
 {
@@ -65,17 +64,7 @@ static int init(void)
 	gl_get_string = dlsym(RTLD_NEXT, "glGetString");
 	gl_get_stringi = dlsym(RTLD_NEXT, "glGetStringi");
 	gl_get_integerv = dlsym(RTLD_NEXT, "glGetIntegerv");
-
-	/*gl_get_booleanv = dlsym(RTLD_NEXT, "glGetBooleanv");
-	gl_get_doublev = dlsym(RTLD_NEXT, "glGetDoublev");
-	gl_get_floatv = dlsym(RTLD_NEXT, "glGetFloatv");
-	gl_get_integer64v = dlsym(RTLD_NEXT, "glGetInteger64v");
-
-	gl_get_booleani_v = dlsym(RTLD_NEXT, "glGetBooleani_v");
-	gl_get_doublei_v = dlsym(RTLD_NEXT, "glGetDoublei_v");
-	gl_get_floati_v = dlsym(RTLD_NEXT, "glGetFloati_v");
-	gl_get_integeri_v = dlsym(RTLD_NEXT, "glGetIntegeri_v");
-	gl_get_integer64i_v = dlsym(RTLD_NEXT, "glGetInteger64i_v");*/
+	gl_get_programiv = dlsym(RTLD_NEXT, "glGetProgramivARB");
 
 	if(init_valid_extensions() == -1) {
 		fprintf(stderr, "GLIAR: failed to initialize the valid extension list, might end up with unavailable extensions!\n");
@@ -161,6 +150,11 @@ const GLubyte *glGetString(GLenum name)
 
 	init();
 
+	if(!gl_get_string) {
+		fprintf(stderr, "Unable to fake the %s function. It is not supported by your OpenGL implementation.\n", __func__);
+		return 0;
+	}
+
 	switch(name) {
 	case GL_VENDOR:
 		key = "vendor";
@@ -200,6 +194,11 @@ const GLubyte *glGetStringi(GLenum name, GLuint index)
 
 	init();
 
+	if(!gl_get_stringi) {
+		fprintf(stderr, "Unable to fake the %s function. It is not supported by your OpenGL implementation.\n", __func__);
+		return 0;
+	}
+
 	switch(name) {
 	case GL_EXTENSIONS:
 		key = "extensions";
@@ -226,6 +225,11 @@ void glGetIntegerv(GLenum name, GLint *val)
 	const struct cfgopt *option;
 
 	init();
+
+	if(!gl_get_integerv) {
+		fprintf(stderr, "Unable to fake the %s function. It is not supported by your OpenGL implementation.\n", __func__);
+		return;
+	}
 
 	switch(name) {
 	case GL_NUM_EXTENSIONS:
@@ -311,4 +315,94 @@ void glGetIntegerv(GLenum name, GLint *val)
 	}
 
 	gl_get_integerv(name, val);
+}
+
+void glGetProgramivARB(GLuint program, GLenum pname, GLint *params)
+{
+	char *key;
+	const struct cfgopt *option;
+
+	init();
+
+	if(!gl_get_programiv) {
+		fprintf(stderr, "Unable to fake the %s function. It is not supported by your OpenGL implementation.\n", __func__);
+		return;
+	}
+
+	switch(pname) {
+	case GL_MAX_PROGRAM_INSTRUCTIONS_ARB:
+		key = "max program instructions arb";
+		break;
+
+	case GL_MAX_PROGRAM_NATIVE_INSTRUCTIONS_ARB:
+		key = "max program native instructions arb";
+		break;
+
+	case GL_MAX_PROGRAM_TEMPORARIES_ARB:
+		key = "max program temporaries arb";
+		break;
+
+	case GL_MAX_PROGRAM_NATIVE_TEMPORARIES_ARB:
+		key = "max program native temporaries arb";
+		break;
+
+	case GL_MAX_PROGRAM_PARAMETERS_ARB:
+		key = "max program parameters arb";
+		break;
+
+	case GL_MAX_PROGRAM_NATIVE_PARAMETERS_ARB:
+		key = "max program native parameters arb";
+		break;
+
+	case GL_MAX_PROGRAM_ATTRIBS_ARB:
+		key = "max program attribs arb";
+		break;
+
+	case GL_MAX_PROGRAM_NATIVE_ATTRIBS_ARB:
+		key = "max program native attribs arb";
+		break;
+
+	case GL_MAX_PROGRAM_ADDRESS_REGISTERS_ARB:
+		key = "max program address registers arb";
+		break;
+
+	case GL_MAX_PROGRAM_NATIVE_ADDRESS_REGISTERS_ARB:
+		key = "max program native address registers arb";
+		break;
+
+	case GL_MAX_PROGRAM_LOCAL_PARAMETERS_ARB:
+		key = "max program local parameters arb";
+		break;
+
+	case GL_MAX_PROGRAM_ENV_PARAMETERS_ARB:
+		key = "max program env parameters arb";
+		break;
+
+	case GL_MAX_PROGRAM_ALU_INSTRUCTIONS_ARB:
+		key = "max program alu instructions arb";
+		break;
+
+	case GL_MAX_PROGRAM_NATIVE_ALU_INSTRUCTIONS_ARB:
+		key = "max program native alu instructions arb";
+		break;
+
+	case GL_MAX_PROGRAM_TEX_INSTRUCTIONS_ARB:
+		key = "max program tex instructions arb";
+		break;
+
+	case GL_MAX_PROGRAM_NATIVE_TEX_INSTRUCTIONS_ARB:
+		key = "max program native tex instructions arb";
+		break;
+
+	default:
+		key = 0;
+	}
+
+	if(key && (option = gliar_find_opt(cfglist, key)) && option->type == GLIAR_NUMBER) {
+		*params = option->num_val;
+		return;
+	}
+
+	gl_get_programiv(program, pname, params);
+
 }
