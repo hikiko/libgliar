@@ -42,6 +42,7 @@ static const GLubyte* (*gl_get_string)(GLenum);
 static const GLubyte* (*gl_get_stringi)(GLenum, GLuint);
 static void (*gl_get_integerv)(GLenum, GLint*);
 static void (*gl_get_programiv)(GLuint, GLenum, GLint*);
+static void *(*glx_get_proc_address)(const unsigned char*);
 
 /*static const void* (*gl_get_booleanv)(GLenum, GLboolean*);
 static const void* (*gl_get_doublev)(GLenum, GLdouble*);
@@ -65,6 +66,7 @@ static int init(void)
 	gl_get_stringi = dlsym(RTLD_NEXT, "glGetStringi");
 	gl_get_integerv = dlsym(RTLD_NEXT, "glGetIntegerv");
 	gl_get_programiv = dlsym(RTLD_NEXT, "glGetProgramivARB");
+	glx_get_proc_address = dlsym(RTLD_NEXT, "glXGetProcAddress");
 
 	if(init_valid_extensions() == -1) {
 		fprintf(stderr, "GLIAR: failed to initialize the valid extension list, might end up with unavailable extensions!\n");
@@ -405,4 +407,21 @@ void glGetProgramivARB(GLuint program, GLenum pname, GLint *params)
 
 	gl_get_programiv(program, pname, params);
 
+}
+
+void *glXGetProcAddress(const unsigned char *procname)
+{
+	if(!glx_get_proc_address) {
+		glx_get_proc_address = dlsym(RTLD_NEXT, "glXGetProcAddress");
+		if(!glx_get_proc_address) {
+			return 0;
+		}
+	}
+
+	if(!strcmp((char*)procname, "glGetProgramivARB")) {
+		char *overr_name = "gl_get_programiv";
+		return glx_get_proc_address((unsigned char*)overr_name);
+	}
+
+	return glx_get_proc_address(procname);
 }
