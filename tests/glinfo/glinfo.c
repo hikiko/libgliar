@@ -21,21 +21,26 @@ Author: Eleni Maria Stea <elene.mst@gmail.com>
 */
 
 #include <stdio.h>
-#include <GL/glew.h>
+//#include <GL/glew.h>
 #include <GL/glut.h>
+#include <GL/glx.h>
 
 #define GET_INTEGER(x)	(glGetIntegerv(x, &val), val)
-#define GET_PROGRAMIV_ARB_V(x) (glGetProgramivARB(GL_VERTEX_PROGRAM_ARB, x, &val), val)
-#define GET_PROGRAMIV_ARB_F(x) (glGetProgramivARB(GL_FRAGMENT_PROGRAM_ARB, x, &val), val)
+#define GET_PROGRAMIV_ARB_V(x) (gl_get_progiv(GL_VERTEX_PROGRAM_ARB, x, &val), val)
+#define GET_PROGRAMIV_ARB_F(x) (gl_get_progiv(GL_FRAGMENT_PROGRAM_ARB, x, &val), val)
 
 int main(int argc, char **argv)
 {
 	int val;
 
+	void (*gl_get_progiv)(GLuint, GLenum, GLint*);
+
 	glutInit(&argc, argv);
 	glutCreateWindow("glinfo");
 
-	glewInit();
+//	glewInit();
+
+	gl_get_progiv = glXGetProcAddress("glGetProgramivARB");
 
 	printf("vendor: %s\n", glGetString(GL_VENDOR));
 	printf("renderer: %s\n", glGetString(GL_RENDERER));

@@ -327,7 +327,7 @@ void glGetProgramivARB(GLuint program, GLenum pname, GLint *params)
 	init();
 
 	if(!gl_get_programiv) {
-		fprintf(stderr, "Unable to fake the %s function. It is not supported by your OpenGL implementation.\n", __func__);
+		fprintf(stderr, "GLIAR: Unable to fake the %s function. It is not supported by your OpenGL implementation.\n", __func__);
 		return;
 	}
 
@@ -422,17 +422,16 @@ void glGetProgramivARB(GLuint program, GLenum pname, GLint *params)
 
 void *glXGetProcAddress(const unsigned char *procname)
 {
-	if(!glx_get_proc_address) {
-		glx_get_proc_address = dlsym(RTLD_NEXT, "glXGetProcAddress");
-		if(!glx_get_proc_address) {
-			return 0;
-		}
-	}
+	init();
 
-	if(!strcmp((char*)procname, "glGetProgramivARB")) {
-		char *overr_name = "gl_get_programiv";
-		return glx_get_proc_address((unsigned char*)overr_name);
+	if(!strcmp((char*)procname, "glGetProgramivARB") || !strcmp((char*)procname, "glGetProgramiv")) {
+		return glGetProgramivARB;
 	}
 
 	return glx_get_proc_address(procname);
+}
+
+void *glXGetProcAddressARB(const unsigned char *procname)
+{
+	return glXGetProcAddress(procname);
 }
