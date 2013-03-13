@@ -400,9 +400,20 @@ void glGetProgramivARB(GLuint program, GLenum pname, GLint *params)
 		key = 0;
 	}
 
-	if(key && (option = gliar_find_opt(cfglist, key)) && option->type == GLIAR_NUMBER) {
-		*params = option->num_val;
-		return;
+	if(key) {
+		char buf[256];
+		if(program == GL_VERTEX_PROGRAM_ARB) {
+			sprintf(buf, "v %s", key);
+		}
+		else if(program == GL_FRAGMENT_PROGRAM_ARB) {
+			sprintf(buf, "f %s", key);
+		}
+		key = buf;
+
+		if((option = gliar_find_opt(cfglist, key)) && option->type == GLIAR_NUMBER) {
+			*params = option->num_val;
+			return;
+		}
 	}
 
 	gl_get_programiv(program, pname, params);
