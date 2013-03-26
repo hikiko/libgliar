@@ -52,8 +52,69 @@ value1
 valueN
 
 Currently supported keys:
-"vendor" (the vendor string), "extensions" (the list of the extensions), "version" (the opengl version string),
-"sl version" (the shading language version), "renderer" (the renderer), "max texture units", "max texture size"
+vendor
+renderer
+version
+sl version
+extensions
+major version
+minor version
+max texture units
+max texture image units
+max combined texture image units
+max vertex texture image units
+max texture size
+max cube map texture size
+max texture coordinates
+max vertex attributes
+max vertex uniform vectors
+max fragment uniform vectors
+max varying vectors
+max color attachments
+max renderbuffer size ext
+max program attribs arb
+v max program instructions arb
+v max program native instructions arb
+v max program temporaries arb
+v max program native temporaries arb
+v max program parameters arb
+v max program native parameters arb
+v max program attribs arb
+v max program native attribs arb
+v max program address registers arb
+v max program native address registers arb
+v max program local parameters arb
+v max program env parameters arb
+v max program alu instructions arb
+v max program native alu instructions arb
+f max program instructions arb
+f max program native instructions arb
+f max program temporaries arb
+f max program native temporaries arb
+f max program parameters arb
+f max program native parameters arb
+f max program attribs arb
+f max program native attribs arb
+f max program address registers arb
+f max program native address registers arb
+f max program local parameters arb
+f max program env parameters arb
+f max program alu instructions arb
+f max program native alu instructions arb
+max program instructions arb
+max program native instructions arb
+max program temporaries arb
+max program native temporaries arb
+max program parameters arb
+max program native parameters arb
+max program attribs arb
+max program native attribs arb
+max program address registers arb
+max program native address registers arb
+max program local parameters arb
+max program env parameters arb
+max program alu instructions arb
+max program native alu instructions arb
 
 Example configuration files can be found in the directory examples.
 Example video: http://www.youtube.com/watch?v=v2UDGgb6AgA
